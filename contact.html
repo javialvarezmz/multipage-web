@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es" data-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Mi Mini Web · Contacto</title>
+    <meta
+      name="description"
+      content="Formulario de contacto con validación accesible."
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✉️</text></svg>"
+    />
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="site-header" role="banner">
+      <div class="container header-inner">
+        <a class="brand" href="./index.html" aria-label="Inicio">Mi Mini Web</a>
+
+        <button
+          id="theme-toggle"
+          class="button-ghost"
+          type="button"
+          aria-label="Cambiar tema"
+        >
+          <span aria-hidden="true">🌓</span>
+        </button>
+
+        <nav class="site-nav" aria-label="Principal">
+          <ul>
+            <li><a href="./index.html">Inicio</a></li>
+            <li><a href="./about.html">Sobre mí</a></li>
+            <li><a href="./contact.html" aria-current="page">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido" class="container flow" role="main">
+      <header class="flow">
+        <h1 class="h1">Contacto</h1>
+        <p class="lead">¿Tienes una idea o feedback? Envíame un mensaje.</p>
+      </header>
+
+      <!-- Mensajes globales (éxito / error general) -->
+      <div id="form-status" class="visually-hidden" role="status" aria-live="polite"></div>
+
+      <form id="contact-form" class="flow" method="post" action="." novalidate>
+        <!-- Honeypot anti-spam (deja esto tal cual) -->
+        <div style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;">
+          <label for="company">Tu empresa (déjalo vacío)</label>
+          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="form-field">
+          <label for="name">Nombre</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            placeholder="Tu nombre"
+            aria-describedby="name-error"
+            aria-invalid="false"
+          />
+          <span id="name-error" class="field-error" role="status" aria-live="polite"></span>
+        </div>
+
+        <div class="form-field">
+          <label for="email">Correo electrónico</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            inputmode="email"
+            placeholder="tucorreo@ejemplo.com"
+            aria-describedby="email-error"
+            aria-invalid="false"
+          />
+          <span id="email-error" class="field-error" role="status" aria-live="polite"></span>
+        </div>
+
+        <div class="form-field">
+          <label for="subject">Asunto</label>
+          <input
+            id="subject"
+            name="subject"
+            type="text"
+            required
+            minlength="3"
+            placeholder="Asunto del mensaje"
+            aria-describedby="subject-error"
+            aria-invalid="false"
+          />
+          <span id="subject-error" class="field-error" role="status" aria-live="polite"></span>
+        </div>
+
+        <div class="form-field">
+          <label for="message">Mensaje</label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            minlength="10"
+            rows="6"
+            placeholder="Cuéntame los detalles…"
+            aria-describedby="message-error"
+            aria-invalid="false"
+          ></textarea>
+          <span id="message-error" class="field-error" role="status" aria-live="polite"></span>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="button">Enviar</button>
+          <button type="reset" class="button-ghost">Limpiar</button>
+        </div>
+
+        <p class="form-note">
+          Al enviar, aceptas que trataré tus datos únicamente para responder a tu
+          consulta. No se comparten con terceros.
+        </p>
+      </form>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          © <span id="year"></span> · Construido con HTML, CSS y JS puros.
+          <a href="https://github.com/" rel="noopener noreferrer">Código en GitHub</a>
+        </p>
+      </div>
+    </footer>
+
+    <noscript>
+      <div class="container" role="alert">
+        La validación mejorada del formulario requiere JavaScript. Tu navegador lo tiene desactivado.
+      </div>
+    </noscript>
+
+    <script src="./main.js" defer></script>
+    <script>
+      // Año en el footer (por si aún no lo hace main.js)
+      document.addEventListener("DOMContentLoaded", () => {
+        const y = document.getElementById("year");
+        if (y) y.textContent = new Date().getFullYear();
+      });
+    </script>
+  </body>
+</html>

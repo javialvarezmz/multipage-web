@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es" data-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Mi Mini Web · Sobre mí</title>
+    <meta
+      name="description"
+      content="Página sobre mí, parte de la mini web multipágina con HTML, CSS y JS."
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👤</text></svg>"
+    />
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="site-header" role="banner">
+      <div class="container header-inner">
+        <a class="brand" href="./index.html" aria-label="Inicio">Mi Mini Web</a>
+
+        <button
+          id="theme-toggle"
+          class="button-ghost"
+          type="button"
+          aria-label="Cambiar tema"
+        >
+          <span aria-hidden="true">🌓</span>
+        </button>
+
+        <nav class="site-nav" aria-label="Principal">
+          <ul>
+            <li><a href="./index.html">Inicio</a></li>
+            <li><a href="./about.html" aria-current="page">Sobre mí</a></li>
+            <li><a href="./contact.html">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido" class="container flow" role="main">
+      <article>
+        <header class="flow">
+          <h1 class="h1">Sobre mí</h1>
+          <p class="lead">
+            Un poco de información personal para dar contexto a esta mini web.
+          </p>
+        </header>
+
+        <section aria-labelledby="bio-title" class="flow">
+          <h2 id="bio-title">Biografía breve</h2>
+          <p>
+            Soy alguien aprendiendo a desarrollar sitios web desde cero, pasando
+            de HTML/CSS/JS básicos hacia proyectos más complejos como PWAs o
+            aplicaciones con datos. Antes había trabajado con Wordpress y
+            Shopify, pero ahora quiero dominar el código.
+          </p>
+        </section>
+
+        <section aria-labelledby="intereses-title" class="flow">
+          <h2 id="intereses-title">Intereses</h2>
+          <ul>
+            <li>Aprender a fondo front-end moderno</li>
+            <li>Explorar back-end ligero (APIs, bases de datos)</li>
+            <li>Construir aplicaciones web útiles (ej. Pomodoro, flight search)</li>
+            <li>Accesibilidad y rendimiento web</li>
+          </ul>
+        </section>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          © <span id="year"></span> · Construido con HTML, CSS y JS puros.
+          <a href="https://github.com/" rel="noopener noreferrer">Código en GitHub</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="./main.js" defer></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const y = document.getElementById("year");
+        if (y) y.textContent = new Date().getFullYear();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+# --- Sistema operativo ---
+.DS_Store
+Thumbs.db
+
+# --- Node / herramientas ---
+node_modules/
+dist/
+build/
+.cache/
+*.log
+
+# --- VSCode / editores ---
+.vscode/
+.idea/
+
+# --- Entornos ---
+.env
+.env.local
+.env.*.local
+
+# --- Otros ---
+coverage/
+*.tmp

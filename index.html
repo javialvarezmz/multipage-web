@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es" data-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Mi Mini Web · Inicio</title>
+    <meta name="description" content="Mini sitio multipágina con HTML semántico, responsive y modo oscuro." />
+
+    <!-- Favicons simples -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+
+    <!-- Tipografías del sistema: rendimiento y accesibilidad -->
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <!-- Enlace de salto para accesibilidad -->
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="site-header" role="banner">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Inicio">Mi Mini Web</a>
+
+        <!-- Botón de tema: el JS leerá/escribirá en localStorage y alternará data-theme -->
+        <button id="theme-toggle" class="button-ghost" type="button" aria-label="Cambiar tema">
+          <span aria-hidden="true">🌓</span>
+        </button>
+
+        <nav class="site-nav" aria-label="Principal">
+          <ul>
+            <!-- Señalamos la página activa con aria-current="page" -->
+            <li><a href="./index.html" aria-current="page">Inicio</a></li>
+            <li><a href="./about.html">Sobre mí</a></li>
+            <li><a href="./contact.html">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido" class="container flow" role="main">
+      <section class="hero">
+        <h1 class="h1">Hola 👋, esto ya es una web “de verdad”</h1>
+        <p class="lead">
+          Base semántica, responsive, accesible y con modo oscuro. Iremos
+          iterando para añadir TypeScript, pruebas y PWA.
+        </p>
+        <div class="actions">
+          <a class="button" href="./about.html">Ver más</a>
+          <a class="button-ghost" href="./contact.html">Contáctame</a>
+        </div>
+      </section>
+
+      <section aria-labelledby="features-title" class="grid-3">
+        <h2 id="features-title" class="sr-only">Características</h2>
+
+        <article class="card">
+          <h3>HTML semántico</h3>
+          <p>Uso de <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>,
+            <code>&lt;section&gt;</code> y <code>&lt;footer&gt;</code> para una estructura clara.</p>
+        </article>
+
+        <article class="card">
+          <h3>Responsive real</h3>
+          <p>Layout con Flex/Grid, tipografías fluidas y buen contraste
+            (apunta a AA).</p>
+        </article>
+
+        <article class="card">
+          <h3>Modo oscuro</h3>
+          <p>Respeta <code>prefers-color-scheme</code> y permite sobrescribirlo con un toggle.</p>
+        </article>
+      </section>
+
+      <section aria-labelledby="lighthouse-title" class="flow">
+        <h2 id="lighthouse-title">Objetivo de calidad</h2>
+        <p>Apunta a ≥ 90 en Lighthouse: Performance, Accesibilidad, Best Practices y SEO.</p>
+        <ul>
+          <li>Imágenes optimizadas (cuando las haya).</li>
+          <li>Metadatos y orden semántico correcto.</li>
+          <li>Foco visible y navegación por teclado.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          © <span id="year"></span> · Construido con HTML, CSS y JS puros.
+          <a href="https://github.com/" rel="noopener noreferrer">Código en GitHub</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- JS principal (colocado al final para rendimiento) -->
+    <script src="./main.js" defer></script>
+    <script>
+      // Relleno del año si aún no lo haces en main.js
+      document.addEventListener('DOMContentLoaded', () => {
+        const y = document.getElementById('year');
+        if (y) y.textContent = new Date().getFullYear();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,148 @@
+/*
+  styles.css – base moderna, accesible y con tema claro/oscuro.
+  - Variables CSS para colores/espaciados/tipografía.
+  - Soporte "system" (prefers-color-scheme) y overrides con [data-theme].
+  - Nav sticky con blur, foco visible, layout responsive con Grid/Flex.
+*/
+
+/* Reset razonable + tipografía */
+:root {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+    Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --radius: 12px;
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;  --space-4: 16px;  --space-6: 24px;  --space-8: 32px;  --space-10: 40px;  --space-12: 48px;
+
+  /* Paleta clara por defecto */
+  --bg: #ffffff;
+  --bg-elev: #f7f7f9;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --primary: #2563eb; /* azul */
+  --primary-contrast: #ffffff;
+  --focus: #22c55e; /* verde para focus alto contraste */
+
+  color-scheme: light;
+}
+
+/* Si el usuario prefiere oscuro y NO hay override manual */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0b10;
+    --bg-elev: #11121a;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --border: #222433;
+    --primary: #60a5fa; /* azul claro */
+    --primary-contrast: #0b0b10;
+    color-scheme: dark;
+  }
+}
+
+/* Overrides manuales con [data-theme] */
+html[data-theme="light"] {
+  --bg: #ffffff; --bg-elev: #f7f7f9; --text: #111827; --muted: #6b7280; --border: #e5e7eb; --primary: #2563eb; --primary-contrast: #ffffff;
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  --bg: #0b0b10; --bg-elev: #11121a; --text: #e5e7eb; --muted: #9ca3af; --border: #222433; --primary: #60a5fa; --primary-contrast: #0b0b10;
+  color-scheme: dark;
+}
+
+/* Reset base */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; font-family: var(--font-sans); background: var(--bg); color: var(--text);
+  line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+img, svg { display: block; max-width: 100%; height: auto; }
+
+/* Accesibilidad: foco visible consistente */
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+
+/* Enlaces */
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Layout */
+.container { width: min(1100px, 92%); margin-inline: auto; }
+
+/* Flow utility: vertical rhythm */
+.flow > * + * { margin-top: var(--space-4); }
+.h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.1; margin: 0 0 var(--space-2); }
+/* Visually hidden utilities */
+.sr-only,
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* Skip link */
+.skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.skip-link:focus { left: 16px; top: 16px; width: auto; height: auto; background: var(--primary); color: var(--primary-contrast); padding: var(--space-2) var(--space-3); border-radius: var(--radius); }
+
+/* Header sticky */
+.site-header {
+  position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--bg) 85%, transparent);
+  backdrop-filter: blur(8px);
+}
+.header-inner { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) 0; }
+.brand { display: flex; align-items: center; gap: var(--space-2); font-weight: 700; }
+.site-nav { margin-left: auto; }
+.site-nav ul { list-style: none; display: flex; gap: var(--space-2); align-items: center; padding: 0; margin: 0; }
+.site-nav a { padding: 8px 12px; border-radius: 10px; }
+.site-nav a[aria-current="page"], .site-nav a.active { background: var(--bg-elev); border: 1px solid var(--border); text-decoration: none; }
+#theme-toggle { border: 1px solid var(--border); background: var(--bg-elev); color: inherit; border-radius: 10px; padding: 8px 12px; cursor: pointer; }
+#theme-toggle:hover { filter: brightness(1.05); }
+
+/* Button styles */
+.button { display: inline-block; background: var(--primary); color: var(--primary-contrast); padding: 12px 18px; border-radius: 12px; font-weight: 600; border: 0; cursor: pointer; }
+.button:hover { filter: brightness(1.05); text-decoration: none; }
+.button-ghost { display: inline-block; background: var(--bg-elev); color: inherit; padding: 12px 18px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; }
+.button-ghost:hover { filter: brightness(1.05); text-decoration: none; }
+
+/* Hero */
+.hero { padding: var(--space-12) 0 var(--space-8); }
+.hero h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.1; margin: 0 0 var(--space-2); }
+.hero p { color: var(--muted); margin: 0 0 var(--space-6); }
+.actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+/* Grid de features */
+.grid-3 { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-4); }
+.card { grid-column: span 12; padding: var(--space-6); background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); }
+.card h3 { margin-top: 0; }
+@media (min-width: 720px) { .card { grid-column: span 6; } }
+@media (min-width: 1024px) { .card { grid-column: span 4; } }
+
+/* Secciones generales */
+section { padding: var(--space-8) 0; }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--border); padding: var(--space-6) 0; color: var(--muted); font-size: 0.95rem; }
+
+/* Páginas internas */
+.page-title, .h1 { margin: 0 0 var(--space-2); }
+.lead { color: var(--muted); margin: 0 0 var(--space-6); }
+
+/* Contacto: formulario accesible */
+form { display: grid; gap: var(--space-4); max-width: 720px; }
+.form-field label { font-weight: 600; display: inline-block; margin-bottom: 6px; }
+.form-field input,
+.form-field textarea,
+.form-field select {
+  width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text);
+}
+.form-field textarea { min-height: 140px; resize: vertical; }
+.form-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center; }
+.form-note { color: var(--muted); font-size: 0.95rem; }
+
+/* Mensajes de error accesibles */
+.field-error { color: #dc2626; min-height: 1.2em; font-size: 0.95rem; display: block; margin-top: 6px; }
+[data-success] { color: #16a34a; background: color-mix(in oklab, #16a34a 12%, transparent); border: 1px solid color-mix(in oklab, #16a34a 35%, transparent); padding: 12px 14px; border-radius: 10px; }
+
+/* Estados invalid */
+input:invalid, textarea:invalid { border-color: #f87171; }
+input:valid, textarea:valid { border-color: #34d399; }
