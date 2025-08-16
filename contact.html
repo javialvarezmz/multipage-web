@@ -53,7 +53,7 @@
       <!-- Mensajes globales (éxito / error general) -->
       <div id="form-status" class="visually-hidden" role="status" aria-live="polite"></div>
 
-      <form id="contact-form" class="flow" method="post" action="." novalidate>
+      <form id="contact-form" class="flow" method="post" action="https://formspree.io/f/movlzqvo" novalidate>
         <!-- Honeypot anti-spam (deja esto tal cual) -->
         <div style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;">
           <label for="company">Tu empresa (déjalo vacío)</label>
@@ -125,6 +125,7 @@
           <button type="submit" class="button">Enviar</button>
           <button type="reset" class="button-ghost">Limpiar</button>
         </div>
+        <div data-success hidden aria-live="polite"></div>
 
         <p class="form-note">
           Al enviar, aceptas que trataré tus datos únicamente para responder a tu

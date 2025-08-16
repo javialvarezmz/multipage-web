@@ -1,4 +1,4 @@
-// main.js – gestión de tema, nav activo y validación accesible de formulario
+// main.js – tema, nav activo y formulario accesible con envío (Formspree)
 
 (function() {
   const THEME_KEY = 'theme'; // 'light' | 'dark' | 'system'
@@ -105,11 +105,15 @@
   })();
 
   /**
-   * Configura la validación accesible del formulario con id 'contact-form'.
+   * Configura la validación accesible del formulario con id 'contact-form' y envío a Formspree.
    */
-  (function setupFormValidation() {
+  (function setupFormValidationAndSubmit() {
     const form = document.getElementById('contact-form');
     if (!form) return;
+
+    const status = document.getElementById('form-status');
+    const successBox = form.querySelector('[data-success]');
+    const honeypot = form.querySelector('#company');
 
     const fields = Array.from(form.querySelectorAll('input, textarea'));
 
@@ -145,6 +149,7 @@
      */
     function showError(field) {
       const el = errorEl(field);
+      field.setAttribute('aria-invalid', 'true');
       if (!el) return;
       el.textContent = messageFor(field);
     }
@@ -155,6 +160,7 @@
      */
     function clearError(field) {
       const el = errorEl(field);
+      field.setAttribute('aria-invalid', 'false');
       if (!el) return;
       el.textContent = '';
     }
@@ -169,31 +175,60 @@
       });
     });
 
-    // Validación al enviar el formulario
-    form.addEventListener('submit', (e) => {
+    // Validación y envío al servidor (Formspree)
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Honeypot: si viene relleno, abortar silenciosamente
+      if (honeypot && honeypot.value.trim() !== '') return;
+
+      // Validación previa
       let ok = true;
-      fields.forEach(f => { 
-        if (!f.checkValidity()) { 
-          ok = false; 
-          showError(f); 
-        } else {
-          clearError(f);
-        }
+      fields.forEach(f => {
+        if (!f.checkValidity()) { ok = false; showError(f); } else { clearError(f); }
       });
-      if (!ok) { 
-        e.preventDefault(); 
-        e.stopPropagation(); 
-        return; 
+      if (!ok) {
+        if (status) { status.classList.remove('visually-hidden'); status.textContent = 'Revisa los campos marcados.'; }
+        return;
       }
 
-      // Simular envío y mostrar mensaje de éxito
-      e.preventDefault();
-      const success = form.querySelector('[data-success]');
-      if (success) {
-        success.hidden = false;
-        success.textContent = 'Formulario enviado con éxito. ¡Gracias!';
-        success.setAttribute('tabindex', '-1');
-        success.focus();
+      try {
+        if (status) { status.classList.remove('visually-hidden'); status.textContent = 'Enviando…'; }
+
+        const endpoint = form.getAttribute('action');
+        const formData = new FormData(form);
+
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          form.reset();
+          fields.forEach(clearError);
+          if (successBox) {
+            successBox.hidden = false;
+            successBox.textContent = 'Formulario enviado con éxito. ¡Gracias! Te responderé pronto.';
+            successBox.setAttribute('tabindex', '-1');
+            successBox.focus();
+          }
+          if (status) { status.textContent = ''; }
+        } else {
+          let msg = 'No se pudo enviar el formulario. Inténtalo de nuevo en unos minutos.';
+          try {
+            const data = await res.json();
+            if (data && data.errors && data.errors.length) {
+              msg = data.errors.map(e => e.message).join(' ');
+            }
+          } catch (_) {}
+          if (status) { status.classList.remove('visually-hidden'); status.textContent = msg; }
+        }
+      } catch (err) {
+        if (status) {
+          status.classList.remove('visually-hidden');
+          status.textContent = 'Error de red. Comprueba tu conexión e inténtalo de nuevo.';
+        }
       }
     });
   })();
